@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palidrome</title>
+</head>
+<body>
+    <h3 style="width: 400px;">Задача - выводить True при условии, если число является зеркальным. т.е. 121 - true 122 - false</h3>
+
+
+
+    <script>
+
+        // 1 Разбить массив на 2 одинаковые части 123 5 321
+        // arr.length / 2
+
+        // mass = `${x}`
+        mass = '1234321'
+        mass = mass.split('')
+
+        center_index = (mass.length - 1) / 2
+        console.log(`Центральный индекс - ${center_index}`);
+
+        // Создаем два массива: первый с числами до center index, второй после center index в обратном порядке
+        first = []
+        for (let index = 0; index < center_index; index++) {
+            first.push(mass[index]); 
+        }
+
+        second = []
+        for (let index = mass.length; index > center_index + 1; index--) {
+            second.push(mass[index - 1]);
+        }
+
+        if (first.join() == second.join()) {
+            console.log(true); 
+        } else console.log(false)
+
+
+
+    </script>
+</body>
+</html>
