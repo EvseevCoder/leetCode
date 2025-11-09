@@ -1,48 +1,62 @@
+// const sudoku = [
+//     [0, 0, 0, 0, 0, 1, 4, 0, 6],
+//     [0, 4, 0, 6, 0, 0, 0, 0, 0],
+//     [1, 0, 6, 0, 0, 0, 0, 5, 0],
+//     [9, 0, 4, 0, 7, 6, 5, 3, 0],
+//     [0, 5, 7, 1, 0, 8, 0, 4, 0],
+//     [0, 0, 0, 0, 4, 5, 8, 0, 7],
+//     [0, 0, 8, 0, 0, 4, 0, 6, 0],
+//     [4, 2, 0, 0, 6, 7, 1, 0, 5],
+//     [5, 6, 1, 8, 2, 9, 0, 0, 0],
+// ]
+
 const sudoku = [
-    [6, 0, 0, 5, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 1, 5, 0, 7],
-    [0, 0, 0, 6, 0, 0, 1, 3, 0],
-    [0, 2, 8, 0, 7, 0, 0, 0, 0],
-    [9, 0, 0, 0, 5, 0, 8, 0, 0],
-    [0, 0, 0, 0, 0, 0, 4, 7, 0],
-    [0, 0, 6, 1, 4, 2, 7, 9, 0],
-    [0, 8, 1, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 5, 2, 0, 6],
+    '000360108',
+    '603085000',
+    '089000003',
+    '000070005',
+    '005031900',
+    '830405002',
+    '900000520',
+    '500000000',
+    '361952000',
 ]
 
 const values = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-function sudokuSolver (sudoku) {
+function sudokuSolver (sudoku, isString = false) {
     // Массив, в который мы будем вставлять новые значения
-    let res = [...sudoku]
+    let res = [];
+    if (isString) {
+        res = sudoku.map(item => item.split('').map(row => Number(row)))
+    } else {
+        res = [...sudoku]
+    }
 
     // Выбор текущего искомого элемента
     let activeRow = 0;
     let activeColumn = 0;
 
-    // Ограничение от текурсии
+    // Ограничение от рекурсии
     let activeIteration = 1;
-    let iterations = 100;
-
-    let breakFor = false;
+    let iterations = 15;
 
     // В первую очередь, проверяем строку на наличие 0
     // Если находим 0 в строке, запомининаем его расположение в переменные
     for (activeIteration; activeIteration <= iterations; activeIteration++) {
-        console.log('iteration number', activeIteration);        
+        console.log('iteration number', activeIteration);
+        let findItems = 0;  
         
-        for (const row in res) {
-            
+        for (const row in res) {     
             for (const item in res[row]) {
-                
 
                 if (res[Number(row)][Number(item)] === 0) {
                     activeColumn = Number(item);
                     activeRow = Number(row);
     
-                    let possibleMeanings = checkAvailableInRow(activeRow);
-                    possibleMeanings = checkAvailableInColumn(activeColumn, possibleMeanings)
-                    possibleMeanings = checkAvailableInSquare(activeRow, activeColumn, possibleMeanings)
+                    let possibleMeanings = checkAvailableInRow(Number(activeRow));
+                    possibleMeanings = checkAvailableInColumn(Number(activeColumn), possibleMeanings)
+                    possibleMeanings = checkAvailableInSquare(Number(activeRow), Number(activeColumn), possibleMeanings)
 
                     if (possibleMeanings.length < 3) {
                         console.log(possibleMeanings, activeRow + 1, activeColumn + 1);
@@ -51,17 +65,18 @@ function sudokuSolver (sudoku) {
                     }
         
                     if (possibleMeanings.length === 1) {
-                        console.log(possibleMeanings, activeRow, activeColumn);
+                        console.log(possibleMeanings, activeRow + 1, activeColumn + 1);
                         res[activeRow][activeColumn] = possibleMeanings[0];
+                        findItems++
                     } else {
                         // console.log(activeRow, activeColumn);
                     }
                 }
             }
-    
-            if (breakFor) {
-                break
-            }
+        }
+
+        if (!findItems) {
+            break;
         }
     }
 
@@ -119,4 +134,4 @@ function sudokuSolver (sudoku) {
     }
 }
 
-console.log(sudokuSolver(sudoku));
+console.log(sudokuSolver(sudoku, true));
