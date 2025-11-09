@@ -1,128 +1,14 @@
 const sudoku = [
-    [9,0,6,7,0,8,5,0,0],
-    [8,0,0,0,0,0,0,0,9],
-    [0,1,3,0,0,0,0,0,7],
-    [6,0,9,0,0,0,1,2,0],
-    [0,7,2,1,0,0,9,0,8],
-    [5,0,1,8,0,2,3,0,0],
-    [1,9,0,0,0,6,0,5,0],
-    [0,0,0,9,0,4,8,0,2],
-    [2,0,8,5,0,7,6,0,4]
+    [6, 0, 0, 5, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 1, 5, 0, 7],
+    [0, 0, 0, 6, 0, 0, 1, 3, 0],
+    [0, 2, 8, 0, 7, 0, 0, 0, 0],
+    [9, 0, 0, 0, 5, 0, 8, 0, 0],
+    [0, 0, 0, 0, 0, 0, 4, 7, 0],
+    [0, 0, 6, 1, 4, 2, 7, 9, 0],
+    [0, 8, 1, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 5, 2, 0, 6],
 ]
-
-// const sudoku = [
-//     [9,2,6,0,0,0,0,0,0],
-//     [8,0,4,0,0,0,0,0,0],
-//     [7,1,3,0,0,0,0,0,0],
-//     [0,0,0,0,0,0,0,0,0],
-//     [0,0,0,0,0,0,0,0,0],
-//     [0,0,0,0,0,0,0,0,0],
-//     [0,0,0,0,0,0,0,0,0],
-//     [0,0,0,0,0,0,0,0,0],
-//     [0,0,0,0,0,0,0,0,0],
-// ]
-
-// const sudoku = [
-//     [
-//         9,
-//         2,
-//         6,
-//         7,
-//         4,
-//         8,
-//         5,
-//         3,
-//         1
-//     ],
-//     [
-//         8,
-//         5,
-//         7,
-//         3,
-//         2,
-//         1,
-//         4,
-//         6,
-//         9
-//     ],
-//     [
-//         4,
-//         1,
-//         3,
-//         6,
-//         0,
-//         0,
-//         0,
-//         0,
-//         7
-//     ],
-//     [
-//         6,
-//         8,
-//         9,
-//         4,
-//         0,
-//         0,
-//         1,
-//         2,
-//         0
-//     ],
-//     [
-//         3,
-//         7,
-//         2,
-//         1,
-//         0,
-//         0,
-//         9,
-//         0,
-//         8
-//     ],
-//     [
-//         5,
-//         4,
-//         1,
-//         8,
-//         0,
-//         2,
-//         3,
-//         0,
-//         0
-//     ],
-//     [
-//         1,
-//         9,
-//         4,
-//         2,
-//         8,
-//         6,
-//         7,
-//         5,
-//         3
-//     ],
-//     [
-//         7,
-//         6,
-//         5,
-//         9,
-//         3,
-//         4,
-//         8,
-//         1,
-//         2
-//     ],
-//     [
-//         2,
-//         3,
-//         8,
-//         5,
-//         1,
-//         7,
-//         6,
-//         9,
-//         4
-//     ]
-// ]
 
 const values = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
@@ -145,34 +31,31 @@ function sudokuSolver (sudoku) {
     for (activeIteration; activeIteration <= iterations; activeIteration++) {
         console.log('iteration number', activeIteration);        
         
-        for (const row of res) {
+        for (const row in res) {
             
-            for (const item of row) {
-                // let activeColumnTest = row.indexOf(item);
-                // let activeRowTest = res.indexOf(row);                
+            for (const item in res[row]) {
+                
 
-                if (item === 0) {
-                    activeColumn = row.indexOf(item);
-                    activeRow = res.indexOf(row);
-
-                    // let activeColumn = item;
-                    // let activeRow = row;
+                if (res[Number(row)][Number(item)] === 0) {
+                    activeColumn = Number(item);
+                    activeRow = Number(row);
     
                     let possibleMeanings = checkAvailableInRow(activeRow);
                     possibleMeanings = checkAvailableInColumn(activeColumn, possibleMeanings)
                     possibleMeanings = checkAvailableInSquare(activeRow, activeColumn, possibleMeanings)
+
+                    if (possibleMeanings.length < 3) {
+                        console.log(possibleMeanings, activeRow + 1, activeColumn + 1);
+                    } else {
+                        // console.log(activeRow, activeColumn);
+                    }
         
                     if (possibleMeanings.length === 1) {
                         console.log(possibleMeanings, activeRow, activeColumn);
                         res[activeRow][activeColumn] = possibleMeanings[0];
+                    } else {
+                        // console.log(activeRow, activeColumn);
                     }
-
-                    console.log(activeRow, activeColumn);
-
-                    // проверка отдельного значения
-                    if (activeRow === 2 && activeColumn === 6) {
-                        console.log('possibleMeanings', possibleMeanings);
-                    } 
                 }
             }
     
